@@ -18,4 +18,10 @@ object RoleMapper {
         description = description,
     )
 
+    fun RoleResponseDTO.toRole() = Role(
+        id = id ?: 0,
+        name = name,
+        description = description,
+    )
+
 }

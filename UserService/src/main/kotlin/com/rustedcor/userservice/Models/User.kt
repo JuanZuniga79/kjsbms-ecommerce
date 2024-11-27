@@ -9,12 +9,12 @@ import java.util.UUID
 data class User(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
-    val firstName: String,
-    val lastName: String,
+    var firstName: String,
+    var lastName: String,
     @Column(unique = true)
-    val email: String,
+    var email: String,
     @ManyToOne(fetch = FetchType.LAZY)
-    val role: Role,
+    var role: Role,
     var createdAt: LocalDateTime? = null,
     var updatedAt: LocalDateTime? = null,
 ){

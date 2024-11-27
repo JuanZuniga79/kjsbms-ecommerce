@@ -1,10 +1,8 @@
 package com.rustedcor.userservice.DTO
 
-import com.rustedcor.userservice.Models.Role
-
-data class UserSaveDTO(
+data class UserEditDTO(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val roleId: Int,
+    val roleId: Int
 )

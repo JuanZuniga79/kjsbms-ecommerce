@@ -9,7 +9,7 @@ data class UserResponseDTO(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val role: Role,
+    val roleId: Int,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
 )

@@ -1,5 +1,6 @@
 package com.rustedcor.userservice.Mappers
 
+import com.rustedcor.userservice.DTO.UserEditDTO
 import com.rustedcor.userservice.DTO.UserResponseDTO
 import com.rustedcor.userservice.DTO.UserSaveDTO
 import com.rustedcor.userservice.Models.Role
@@ -14,12 +15,19 @@ object UserMapper {
         firstName = firstName,
         lastName = lastName,
         email = email,
-        role = role,
+        roleId = role.id ?: 0,
         createdAt = createdAt?: LocalDateTime.now(),
         updatedAt = updatedAt?: LocalDateTime.now(),
     )
 
     fun UserSaveDTO.toUser(role: Role) = User(
+        firstName = firstName,
+        lastName = lastName,
+        email = email,
+        role = role
+    )
+
+    fun UserEditDTO.toUser(role: Role) = User(
         firstName = firstName,
         lastName = lastName,
         email = email,

@@ -1,1 +1,65 @@
 services:
+
+  users-db:
+    image: postgres:17-alpine
+    container_name: kjsbms-UsersDB
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    isolation: default
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - kjsbms-users-nw
+
+  config-server:
+    build:
+      context: ConfigServer
+      dockerfile: Dockerfile
+    container_name: kjsbms-ConfigServer
+    ports:
+      - "8888:8888"
+    networks:
+      - kjsbms-nw
+
+  discovery-server:
+    build:
+      context: DiscoveryServer
+      dockerfile: Dockerfile
+    container_name: kjsbms-DiscoveryServer
+    ports:
+      - "8761:8761"
+    networks:
+      - kjsbms-nw
+    depends_on:
+      - config-server
+
+  user-service:
+    build:
+      context: UserService
+      dockerfile: Dockerfile
+    container_name: kjsbms-UserService
+    environment:
+      - DB_HOST=users-db
+      - DB_PORT=5432
+      - EUREKA_HOST=discovery-server
+      - EUREKA_PORT=8761
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery-server
+      - users-db
+    networks:
+      - kjsbms-nw
+      - kjsbms-users-nw
+
+networks:
+  kjsbms-nw:
+  kjsbms-users-nw:
+
+volumes:
+  pgdata:
+    driver: local
